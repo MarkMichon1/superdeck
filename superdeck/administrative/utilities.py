@@ -1,9 +1,12 @@
-from administrative.models import Instance
-from users.models import State
+from django.core.cache import cache
+from django.db.utils import ProgrammingError
+
+from administrative.models import Instance, State
 
 
-def run_once_on_startup():
-    """Ran each time the web app initializes."""
+def database_initialization_check():
+    """Executed the first time the app runs post migration."""
+
     instance = Instance.load()
 
     if not instance.is_initialized:
@@ -30,3 +33,12 @@ def run_once_on_startup():
 
         instance.is_initialized = True
         instance.save()
+
+def cache_initialize():
+    """Loads weather data into cache at startup.  May do more in future."""
+    cache.delete_many(['instance.is_opened', 'instance.opening_time, instance.closing_time', 'email.24h_count'])
+    instance = Instance.load()
+
+    cache.set_many([])
+
+    # Get count of number of emails

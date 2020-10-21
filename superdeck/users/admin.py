@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from users.models import AppUser, ClientData, EmployeeData
+
+
+admin.site.register(AppUser)
+admin.site.register(ClientData)
+admin.site.register(EmployeeData)

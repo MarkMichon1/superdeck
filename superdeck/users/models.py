@@ -1,30 +1,5 @@
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
-
-
-class State(models.Model):
-    name = models.CharField(max_length=14, unique=True)
-    abbreviation = models.CharField(max_length=2, unique=True)
-
-    def __str__(self):
-        return f'{self.abbreviation} -- {self.name}'
-
-
-class City(models.Model):
-    name = models.CharField(max_length=40)
-    state = models.ForeignKey(State, null=True, related_name='cities', on_delete=models.SET_NULL)
-
-    def __str__(self):
-        return f'{self.name} -- {self.state.name}'
-
-
-class Address(models.Model):
-    street_address = models.CharField(max_length=100)
-    optional_line_2 = models.CharField(max_length=100, null=True, blank=True)
-    city = models.ForeignKey(City, null=True, on_delete=models.SET_NULL)
-    zip_code = models.IntegerField()
-    state = models.Choices
 
 
 class CustomUserManager(BaseUserManager):
@@ -49,6 +24,7 @@ class CustomUserManager(BaseUserManager):
 
 class AppUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
+    date_created = models.DateTimeField(auto_now_add=True)
     first_name = models.CharField(max_length=60)
     last_name = models.CharField(max_length=60)
     is_staff = models.BooleanField(default=True)
@@ -61,9 +37,6 @@ class AppUser(AbstractBaseUser, PermissionsMixin):
     objects = CustomUserManager()
 
     REQUIRED_FIELDS = ['first_name', 'last_name']
-
-    class Meta:
-        pass #todo
 
 
 class EmployeeData(models.Model):
