@@ -36,9 +36,9 @@ def database_initialization_check():
 
 def cache_initialize():
     """Loads weather data into cache at startup.  May do more in future."""
-    cache.delete_many(['instance.is_opened', 'instance.opening_time, instance.closing_time', 'email.24h_count'])
-    instance = Instance.load()
-
-    cache.set_many([])
+    # cache.delete_many(['instance.is_opened', 'instance.opening_time, instance.closing_time', 'email.24h_count'])
+    # instance = Instance.load()
+    #
+    # cache.set_many([])
 
     # Get count of number of emails

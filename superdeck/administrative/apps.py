@@ -7,8 +7,8 @@ class AdministrativeConfig(AppConfig):
 
     def ready(self):
         try:
-            from administrative.utilities import cache_refresh, database_initialization_check
+            from administrative.utilities import cache_initialize, database_initialization_check
             database_initialization_check()
-            cache_refresh()
+            cache_initialize()
         except ProgrammingError:
             pass

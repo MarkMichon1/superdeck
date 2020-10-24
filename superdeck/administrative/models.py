@@ -15,6 +15,10 @@ class Instance(models.Model):
     def delete(self, *args, **kwargs):
         pass
 
+    class Meta:
+        verbose_name = 'Instance'
+        verbose_name_plural = 'Instances'
+
     @classmethod
     def load(cls):
         loaded_object, created = cls.objects.get_or_create(pk=1)
@@ -28,6 +32,10 @@ class State(models.Model):
     def __str__(self):
         return f'{self.abbreviation} -- {self.name}'
 
+    class Meta:
+        verbose_name = 'State'
+        verbose_name_plural = 'States'
+
 
 class City(models.Model):
     name = models.CharField(max_length=40)
@@ -36,6 +44,10 @@ class City(models.Model):
     def __str__(self):
         return f'{self.name} -- {self.state.name}'
 
+    class Meta:
+        verbose_name = 'City'
+        verbose_name_plural = 'Cities'
+
 
 class Address(models.Model):
     street_address = models.CharField(max_length=100)
@@ -43,6 +55,10 @@ class Address(models.Model):
     city = models.ForeignKey(City, null=True, on_delete=models.SET_NULL)
     zip_code = models.IntegerField()
     state = models.Choices
+
+    class Meta:
+        verbose_name = 'Address'
+        verbose_name_plural = 'Addresses'
 
 
 class LoggedEmail(models.Model):
